@@ -105,6 +105,21 @@ export default function Home() {
       setProducts(results);
       setState("done");
 
+      // Save to SQLite history (fire-and-forget)
+      fetch("/api/history", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          image,
+          mimeType,
+          productName: info.name,
+          productCategory: info.category,
+          productDescription: info.description,
+          productBrand: info.brand,
+          searchQuery: info.searchQuery,
+          results,
+        }),
+      }).catch(() => {});
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setState("error");
@@ -147,14 +162,22 @@ export default function Home() {
               </p>
             </div>
           </a>
-          {image && (
-            <button
-              onClick={reset}
-              className="text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors cursor-pointer tracking-wide uppercase font-light"
+          <div className="flex items-center gap-5">
+            <a
+              href="/history"
+              className="text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors tracking-wide uppercase font-light no-underline"
             >
-              New search
-            </button>
-          )}
+              History
+            </a>
+            {image && (
+              <button
+                onClick={reset}
+                className="text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors cursor-pointer tracking-wide uppercase font-light"
+              >
+                New search
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
