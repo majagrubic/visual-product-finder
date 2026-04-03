@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 interface ProductInfo {
   name: string;
@@ -44,6 +44,11 @@ export default function Home() {
   const [state, setState] = useState<AppState>("idle");
   const [error, setError] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
+  const [isLocal, setIsLocal] = useState(false);
+
+  useEffect(() => {
+    setIsLocal(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+  }, []);
 
   const processFile = useCallback((file: File) => {
     if (!file.type.startsWith("image/")) return;
@@ -163,12 +168,14 @@ export default function Home() {
             </div>
           </a>
           <div className="flex items-center gap-5">
-            <a
-              href="/history"
-              className="text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors tracking-wide uppercase font-light no-underline"
-            >
-              History
-            </a>
+            {isLocal && (
+              <a
+                href="/history"
+                className="text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors tracking-wide uppercase font-light no-underline"
+              >
+                History
+              </a>
+            )}
             {image && (
               <button
                 onClick={reset}
@@ -466,7 +473,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="mt-auto border-t border-[var(--border)] py-6">
         <p className="text-center text-xs text-[var(--text-muted)] tracking-wide font-light">
-          Built for Agentic AI Engineering Bootcamp by Maja Grubic & Murali Lakshman
+          Built for Agentic AI Engineering Bootcamp by Maja Grubic
         </p>
       </footer>
     </div>
