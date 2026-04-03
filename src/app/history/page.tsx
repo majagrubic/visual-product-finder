@@ -278,7 +278,7 @@ export default function HistoryPage() {
       {/* Footer */}
       <footer className="mt-auto border-t border-[var(--border)] py-6">
         <p className="text-center text-xs text-[var(--text-muted)] tracking-wide font-light">
-          Built for Agentic AI Engineering Bootcamp by Maja Grubic & Murali Lakshman
+          Built for Agentic AI Engineering Bootcamp by Maja Grubic
         </p>
       </footer>
     </div>
